@@ -18,7 +18,7 @@ exports.qncServerStart = async (opt) => {
 
         //启动用户指定的服务并携带信使
         const userProcess = fork(opt.startFile, {
-            execArgv: [`--require=${path.resolve(__dirname, './messenger.js')}`]
+            execArgv: ['--require', `${path.resolve(__dirname, './messenger.js')}`]
         });
 
         //启动覆盖率分析服务
