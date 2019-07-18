@@ -13,6 +13,6 @@
 ## 使用方式
 使用方式很简单：
 ```
-npx q-node-coverage --root-dir dist dist/index.js
+npx qnc --root-dir [rootDir] <rootDir/server.js>
 ```
 也可以在 *package.json* 中自定义 *run-script* 执行，这里不再赘述。
