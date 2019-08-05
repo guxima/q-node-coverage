@@ -26,5 +26,8 @@
     "commander": "^2.20.0",
     "express": "^4.17.1",
     "istanbul-api": "^2.1.6"
+  },
+  "devDependencies": {
+    "standard": "^13.1.0"
   }
 }
