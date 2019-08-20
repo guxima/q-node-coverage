@@ -1,3 +1,4 @@
+
 const { fork } = require('child_process')
 const assert = require('assert')
 const { instrument } = require('./lib/instrument')
@@ -32,3 +33,20 @@ exports.qncServerStart = async (opt) => {
     console.log(error)
   }
 }
+
+
+
+// setInterval(() => {
+//   process.send({
+//     type : 'process:msg',
+//     data : {
+//      success : true
+//     }
+//  });
+
+//  console.log(+new Date)
+// }, 1000)
+
+console.log(process.env)
+
+process.exit()
