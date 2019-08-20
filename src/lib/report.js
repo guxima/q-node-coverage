@@ -6,17 +6,22 @@ const path = require('path')
 const express = require('express')
 const libCoverage = require('istanbul-lib-coverage')
 const { createReporter } = require('istanbul-api')
+const {ProcessMessageType} = require('./constant')
 
 let CoverageData = {} // 默认的覆盖率数据，用户服务的数据会通过IPC的形式传进来
 
-process.on('message', msg => {
-  CoverageData = msg
+process.on('message', ({type, data}) => {
+  //只处理qnc发出的进程消息
+  if(type === ProcessMessageType){
+    const {coverage} = data;
 
-  const coverageMap = libCoverage.createCoverageMap(CoverageData)
-  const reporter = createReporter()
+    CoverageData = coverage
+    const coverageMap = libCoverage.createCoverageMap(CoverageData)
+    const reporter = createReporter()
 
-  reporter.addAll(['html'])
-  reporter.write(coverageMap)
+    reporter.addAll(['html'])
+    reporter.write(coverageMap)
+  }
 })
 
 const app = express()

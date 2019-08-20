@@ -6,9 +6,11 @@
  * @desc 将fork进程中的 __coverage__ 信息发送给主进程
  */
 
+const {ProcessMessageType} = require('./lib/constant')
+
 setInterval(() => {
   process.send({
-    type: 'process:msg',
+    type: ProcessMessageType,
     data: {
       coverage: __coverage__
     }
