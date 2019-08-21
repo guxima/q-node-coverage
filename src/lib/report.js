@@ -6,7 +6,9 @@ const path = require('path')
 const express = require('express')
 const libCoverage = require('istanbul-lib-coverage')
 const { createReporter } = require('istanbul-api')
-const {ProcessMessageType} = require('./constant')
+const debug = require('debug')('qnc:report')
+
+const {ProcessMessageType, CoverageServerPort} = require('./constant')
 
 let CoverageData = {} // 默认的覆盖率数据，用户服务的数据会通过IPC的形式传进来
 
@@ -24,6 +26,12 @@ process.on('message', ({type, data}) => {
   }
 })
 
+// IPC通信丢失就退出进程
+process.on('disconnect', function(){
+  debug('coverage server IPC disconnect')
+  process.exit(1)
+})
+
 const app = express()
 
 const projectDir = process.cwd()
@@ -38,4 +46,6 @@ app.get('/coverage', (req, res) => {
   res.send(CoverageData[key] || CoverageData)
 })
 
-app.listen(8987)
+app.listen(process.env.CoverageServerPort || CoverageServerPort, function(){
+  debug('coverage server started')
+})
