@@ -1,6 +1,6 @@
 {
   "name": "qnc",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "实现一种查看线上node服务实时代码覆盖率统计的方案，相比本地跑单元测试获取覆盖率，具有对任意服务跑黑盒测试的便捷性。",
   "main": "src/index.js",
   "bin": "./bin/cli.js",
