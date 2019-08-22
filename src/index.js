@@ -37,5 +37,5 @@ exports.qncServerStart = async (opt) => {
 
 // pm2 通过 node -r=qnc 的方式启动
 if(process.env.pmx){
-  require('./messenger')
+  require('./pm2-messenger')
 }
