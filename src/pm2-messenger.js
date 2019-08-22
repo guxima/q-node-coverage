@@ -21,7 +21,7 @@ pm2.connect(function () {
       debug('pm2 launchBus error -> %o', err)
     } else {
       // 启动覆盖率分析服务
-      const reportProcess = fork(path.join(__dirname, './lib/report.js'))
+      const reportProcess = fork(path.join(__dirname, './lib/report.js'), [], {silent: true})
 
       debug('reportProcess started %O', reportProcess)
 

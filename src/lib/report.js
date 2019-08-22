@@ -53,5 +53,5 @@ app.get('/coverage', (req, res) => {
 
 app.listen(process.env.CoverageServerPort || CoverageServerPort, function () {
   console.log('coverage server started')
-  process.send('ok')
+  process.send && process.send('ok')
 })
