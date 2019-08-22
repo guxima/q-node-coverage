@@ -1,4 +1,4 @@
 module.exports = {
-    ProcessMessageType: 'process:coverage',
-    CoverageServerPort: 8987
+  ProcessMessageType: 'process:coverage',
+  CoverageServerPort: 8987
 }

@@ -8,14 +8,14 @@ const libCoverage = require('istanbul-lib-coverage')
 const { createReporter } = require('istanbul-api')
 const debug = require('debug')('qnc:report')
 
-const {ProcessMessageType, CoverageServerPort} = require('./constant')
+const { ProcessMessageType, CoverageServerPort } = require('./constant')
 
 let CoverageData = {} // 默认的覆盖率数据，用户服务的数据会通过IPC的形式传进来
 
-process.on('message', ({type, data}) => {
-  //只处理qnc发出的进程消息
-  if(type === ProcessMessageType){
-    const {coverage} = data;
+process.on('message', ({ type, data }) => {
+  // 只处理qnc发出的进程消息
+  if (type === ProcessMessageType) {
+    const { coverage } = data
 
     CoverageData = coverage
     const coverageMap = libCoverage.createCoverageMap(CoverageData)
@@ -27,9 +27,14 @@ process.on('message', ({type, data}) => {
 })
 
 // IPC通信丢失就退出进程
-process.on('disconnect', function(){
+process.on('disconnect', function () {
   debug('coverage server IPC disconnect')
   process.exit(1)
+})
+
+process.on('uncaughtException', function (err) {
+  console.log(err)
+  process.exit()
 })
 
 const app = express()
@@ -46,6 +51,7 @@ app.get('/coverage', (req, res) => {
   res.send(CoverageData[key] || CoverageData)
 })
 
-app.listen(process.env.CoverageServerPort || CoverageServerPort, function(){
-  debug('coverage server started')
+app.listen(process.env.CoverageServerPort || CoverageServerPort, function () {
+  console.log('coverage server started')
+  process.send('ok')
 })

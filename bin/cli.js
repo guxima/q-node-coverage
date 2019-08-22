@@ -23,7 +23,7 @@ program
     const rootDir = path.resolve(process.env.PWD, opts.rootDir || path.dirname(file))
     const startFile = path.resolve(process.env.PWD, file)
 
-    opts.port && (process.env.CoverageServerPort = opts.port); //coverage server 启动服务时使用
+    opts.port && (process.env.CoverageServerPort = opts.port) // coverage server 启动服务时使用
     qncServerStart({
       rootDir,
       startFile
@@ -32,23 +32,22 @@ program
 
 // 启动pm2覆盖率收集服务
 program
-.command('pm2-coverage-server')
-.description('通过pm2 api启动覆盖率服务')
-.action( function(opts){
-  let port = opts.parent.port;
-  debug('command pm2-coverage-server <port>:%d', port)
-  port && (process.env.CoverageServerPort = port); //coverage server 启动服务时使用
-  require('../src/pm2-messenger');
-})
+  .command('pm2-coverage-server')
+  .description('通过pm2 api启动覆盖率服务')
+  .action(function (opts) {
+    const port = opts.parent.port
+    debug('command pm2-coverage-server <port>:%d', port)
+    port && (process.env.CoverageServerPort = port) // coverage server 启动服务时使用
+    require('../src/pm2-messenger')
+  })
 
 // 对代码进行instrument化服务
 program
-.command('instrument <root-dir>')
-.description('针对<root-dir>进行instrument化')
-.action(function(rootDir){
-  debug('command instrument <root-dir>:%s', rootDir)
-  instrument(path.resolve(process.env.PWD, rootDir))
-})
-
+  .command('instrument <root-dir>')
+  .description('针对<root-dir>进行instrument化')
+  .action(function (rootDir) {
+    debug('command instrument <root-dir>:%s', rootDir)
+    instrument(path.resolve(process.env.PWD, rootDir))
+  })
 
 program.parse(process.argv)

@@ -28,5 +28,8 @@
     "express": "^4.17.1",
     "istanbul-api": "^2.1.6",
     "pm2": "^3.5.1"
+  },
+  "devDependencies": {
+    "standard": "^14.0.0"
   }
 }
