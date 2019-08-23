@@ -28,7 +28,7 @@ process.on('message', ({ type, data }) => {
 
 // IPC通信丢失就退出进程
 process.on('disconnect', function () {
-  debug('coverage server IPC disconnect')
+  debug('report IPC disconnect')
   process.exit(1)
 })
 
