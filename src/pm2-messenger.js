@@ -30,6 +30,9 @@ pm2.connect(function () {
         debug('reportProcess exit ')
         process.exit(1)
       })
+      reportProcess.stdout.on('data', data => {
+          console.log(data)
+      })
       reportProcess.on('message', function (message) {
         if (message === 'ok') {
           debug('pm2 bus addlistener')
