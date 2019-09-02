@@ -10,19 +10,25 @@ const debug = require('debug')('qnc:report')
 
 const { ProcessMessageType, CoverageServerPort } = require('./constant')
 
-let CoverageData = {} // 默认的覆盖率数据，用户服务的数据会通过IPC的形式传进来
+let CoverageMap = null // 默认的覆盖率数据，用户服务的数据会通过IPC的形式传进来
 
 process.on('message', ({ type, data }) => {
   // 只处理qnc发出的进程消息
   if (type === ProcessMessageType) {
     const { coverage } = data
 
-    CoverageData = coverage
-    const coverageMap = libCoverage.createCoverageMap(CoverageData)
+    if(!CoverageMap){
+      CoverageMap = libCoverage.createCoverageMap(coverage)
+      debug('init CoverageMap')
+    }else{
+      CoverageMap.merge(coverage)
+      debug('merge coverage')
+    }
+
     const reporter = createReporter()
 
     reporter.addAll(['html'])
-    reporter.write(coverageMap)
+    reporter.write(CoverageMap)
   }
 })
 

@@ -11,9 +11,10 @@ const debug = require('debug')('qnc:cli')
 const { qncServerStart } = require('../src/index')
 const { instrument } = require('../src/lib/instrument')
 
+const packageVersion = require('../package.json').version;
 // 默认命令，插桩、启动服务一体化
 program
-  .version('0.4.4')
+  .version(packageVersion)
   .usage('[options] <file>', '启动服务的文件')
   .option('-d, --root-dir <dir>', '项目根目录') // 如果赋空值，会导致命令行参数错乱
   .option('-p, --port <port>', '指定覆盖率服务的端口号，默认8987')
