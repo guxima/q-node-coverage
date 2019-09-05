@@ -32,7 +32,7 @@ pm2.connect(function () {
       })
 
       // 收集错误信息
-      reportProcess.on('error', function(error){
+      reportProcess.on('error', function (error) {
         console.error(`reportProcess got error: ${error}`)
       })
 
