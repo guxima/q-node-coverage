@@ -11,7 +11,7 @@ const debug = require('debug')('qnc:cli')
 const { qncServerStart } = require('../src/index')
 const { instrument } = require('../src/lib/instrument')
 
-const packageVersion = require('../package.json').version;
+const packageVersion = require('../package.json').version
 // 默认命令，插桩、启动服务一体化
 program
   .version(packageVersion)

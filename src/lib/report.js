@@ -17,10 +17,10 @@ process.on('message', ({ type, data }) => {
   if (type === ProcessMessageType) {
     const { coverage } = data
 
-    if(!CoverageMap){
+    if (!CoverageMap) {
       CoverageMap = libCoverage.createCoverageMap(coverage)
       debug('init CoverageMap')
-    }else{
+    } else {
       CoverageMap.merge(coverage)
       debug('merge coverage')
     }
@@ -34,12 +34,12 @@ process.on('message', ({ type, data }) => {
 
 // IPC通信丢失就退出进程
 process.on('disconnect', function () {
-  debug('report IPC disconnect')
+  console.error('report IPC disconnect')
   process.exit(1)
 })
 
 process.on('uncaughtException', function (err) {
-  console.log(err)
+  console.error(err)
   process.exit()
 })
 
@@ -51,10 +51,14 @@ app.use(express.static(path.join(projectDir, 'coverage')))
 
 app.get('/coverage', (req, res) => {
   const { file } = req.query
-  const key = Object.keys(CoverageData).find(k => {
+  const key = Object.keys(CoverageMap).find(k => {
     return new RegExp(`${file}$`).test(k)
   })
-  res.send(CoverageData[key] || CoverageData)
+  res.send(CoverageMap[key] || CoverageMap)
+})
+
+app.get('/summary', (req, res) => {
+  res.send(CoverageMap.getCoverageSummary())
 })
 
 app.listen(process.env.CoverageServerPort || CoverageServerPort, function () {

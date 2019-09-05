@@ -1,3 +1,4 @@
+/* global __coverage__ */
 /**
  * @author todd.ma
  * @email todd.ma@qunar.com

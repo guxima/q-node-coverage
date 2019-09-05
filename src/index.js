@@ -2,6 +2,7 @@ const { fork } = require('child_process')
 const assert = require('assert')
 const { instrument } = require('./lib/instrument')
 const path = require('path')
+const debug = require('debug')('qnc:index')
 
 /**
  * 启动覆盖率统计server
@@ -11,10 +12,8 @@ exports.qncServerStart = async (opt) => {
   const { rootDir, startFile } = opt
   assert(rootDir && startFile, 'rootDir or startFile nonempty')
 
-  let err
-
   try {
-    err = await instrument(opt.rootDir)
+    await instrument(opt.rootDir)
 
     // 启动用户指定的服务并携带信使
     const userProcess = fork(opt.startFile, {
@@ -35,5 +34,6 @@ exports.qncServerStart = async (opt) => {
 
 // pm2 通过 node -r=qnc 的方式启动
 if (process.env.pmx) {
+  debug('pm2 通过 node -r=qnc 的方式启动')
   require('./messenger')
 }

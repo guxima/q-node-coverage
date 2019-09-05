@@ -26,9 +26,14 @@ pm2.connect(function () {
       debug('reportProcess started %O', reportProcess)
 
       // 子进程异常退出后该进程也退出
-      reportProcess.on('exit', function () {
-        debug('reportProcess exit ')
+      reportProcess.on('exit', function (code, signal) {
+        console.log(`reportProcess exit! code:${code} signal:${signal}`)
         process.exit(1)
+      })
+
+      // 收集错误信息
+      reportProcess.on('error', function(error){
+        console.error(`reportProcess got error: ${error}`)
       })
 
       reportProcess.on('message', function (message) {
@@ -36,6 +41,7 @@ pm2.connect(function () {
         if (message === 'ok') {
           debug('pm2 bus addlistener')
           bus.on(ProcessMessageType, packet => {
+            debug('pm2 got bus message')
             reportProcess.connected && reportProcess.send(Object.assign(packet, { type: ProcessMessageType })) // must connected
           })
         }
