@@ -23,10 +23,11 @@
   },
   "homepage": "https://github.com/guxima/q-node-coverage#readme",
   "dependencies": {
+    "archiver": "^3.1.1",
     "commander": "^2.20.0",
     "debug": "^4.1.1",
     "express": "^4.17.1",
-    "istanbul-api": "^2.1.6",
+    "istanbul-api": "^2.1.7",
     "pm2": "^3.5.1"
   },
   "devDependencies": {
