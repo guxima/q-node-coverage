@@ -92,6 +92,10 @@ app.get('/summary', (req, res) => {
   res.send(CoverageMap.getCoverageSummary())
 })
 
+app.get('/', (req, res) => {
+  res.send('ok') // just for check url
+})
+
 app.listen(process.env.CoverageServerPort || CoverageServerPort, function () {
   console.log('coverage server started')
   process.send && process.send('ok')
